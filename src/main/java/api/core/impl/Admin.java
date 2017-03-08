@@ -7,6 +7,10 @@ import api.IAdmin;
  */
 public class Admin implements IAdmin {
 
+    public Admin() {
+        DataManager.reset();
+    }
+
     @Override
     public void createClass(String className, int year, String instructorName, int capacity) {
         Course course = new Course(className, year, capacity);

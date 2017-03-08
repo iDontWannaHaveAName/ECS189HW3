@@ -25,7 +25,13 @@ public class DataManager {
         for (Enrollee s : enrollees) {
             if (s.getName().equals(name)) return s;
         }
-        return null;
+        Enrollee enrollee = new Enrollee(name);
+        enrollees.add(enrollee);
+        return enrollee;
     }
 
+    public static void reset() {
+        enrollees.clear();
+        courseInstructors.clear();
+    }
 }

@@ -59,6 +59,10 @@ class Course {
         this.capacity = capacity;
     }
 
+    public int hashCode() {
+        return this.name.hashCode() * 31 + Integer.hashCode(this.year);
+    }
+
     public boolean equals(Object other) {
         if (other == null) return false;
         if (!(other instanceof Course)) return false;
