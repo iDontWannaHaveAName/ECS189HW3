@@ -70,10 +70,7 @@ public class TestStudent {
     public void testDropClass1() {
         this.admin.createClass("Math",2017,"Jack",10);
         this.student.registerForClass("Mike","Math",2017);
-        if(this.admin.classExists("Math",2017) &&
-                this.student.isRegisteredFor("Mike","Math",2017)){
-            this.student.dropClass("Mike","Math",2017);
-        }
+        this.student.dropClass("Mike","Math",2017);
         assertFalse(this.student.isRegisteredFor("Mike","Math",2017));
     }
 
@@ -82,10 +79,9 @@ public class TestStudent {
     public void testDropClass2() {
         this.admin.createClass("Math",2017,"Jack",10);
         this.student.registerForClass("Mike","Art",2017);
-        if(this.admin.classExists("Math",2017) &&
-                this.student.isRegisteredFor("Mike","Math",2017)){
-            this.student.dropClass("Mike","Math",2017);
-        }
+        this.student.dropClass("Mike","Math",2017);
+        assertTrue(this.admin.classExists("Math",2017));
+        assertFalse(this.student.isRegisteredFor("Mike","Math",2017));
         assertFalse("Student is not registered", this.student.isRegisteredFor("Mike","Math",2017));
     }
 
@@ -94,10 +90,9 @@ public class TestStudent {
     public void testDropClass3() {
         this.admin.createClass("Art",2017,"Jack",10);
         this.student.registerForClass("Mike","Math",2017);
-        if(this.admin.classExists("Math",2017) &&
-                this.student.isRegisteredFor("Mike","Math",2017)){
-            this.student.dropClass("Mike","Math",2017);
-        }
+        this.student.dropClass("Mike","Math",2017);
+        assertFalse(this.admin.classExists("Math",2017));
+        assertTrue(this.student.isRegisteredFor("Mike","Math",2017));
         assertFalse("Class has ended", this.student.isRegisteredFor("Mike","Math",2017));
     }
 

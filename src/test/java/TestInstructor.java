@@ -90,6 +90,7 @@ public class TestInstructor {
         this.admin.createClass("TestA", 2020, "InstructorA", 15);
         this.instructor.addHomework("InstructorA", "TestA", 2020, "Math",
                 "project1");
+        this.student.registerForClass("Mike","TestA",2020);
         this.student.submitHomework("Mike","Math","MathAnswer","TestA",2020);
         this.instructor.assignGrade("InstructorA", "TestA", 2020, "Math",
                 "Mike", 100);
@@ -99,37 +100,61 @@ public class TestInstructor {
     //Grade cannot be less than 0
     @Test
     public void testMakeHomework6() {
+        this.admin.createClass("TestA", 2020, "InstructorA", 15);
+        this.instructor.addHomework("InstructorA", "TestA", 2020, "Math",
+                "project1");
+        this.student.registerForClass("Mike","TestA",2020);
+        this.student.submitHomework("Mike","Math","MathAnswer","TestA",2020);
         this.instructor.assignGrade("InstructorA", "TestA", 2020, "Math",
                 "Mike", -1);
-        assertTrue(this.instructor.getGrade("TestA",2020,"Math",
-                "Mike") == null);
+        assertFalse("Grade cannot be less than 0",
+                this.instructor.getGrade("TestA",2020,"Math",
+                "Mike") == -1);
     }
 
     //Class name cannot be empty
     @Test
     public void testMakeHomework7() {
+        this.admin.createClass("", 2020, "InstructorA", 15);
+        this.instructor.addHomework("InstructorA", "", 2020, "Math",
+                "project1");
+        this.student.registerForClass("Mike","",2020);
+        this.student.submitHomework("Mike","Math","MathAnswer","",2020);
         this.instructor.assignGrade("instructorA", "", 2020, "Math",
                 "Mike", 97);
-        assertTrue(this.instructor.getGrade("",2020,"Math",
-                        "Mike") == null);
+        assertFalse("Class name cannot be empty",
+                this.instructor.getGrade("",2020,"Math",
+                        "Mike") == 97);
     }
 
     //Homework name cannot be empty
     @Test
     public void testMakeHomework8() {
+        this.admin.createClass("TestA", 2020, "InstructorA", 15);
+        this.instructor.addHomework("InstructorA", "TestA", 2020, "",
+                "project1");
+        this.student.registerForClass("Mike","TestA",2020);
+        this.student.submitHomework("Mike","","MathAnswer","TestA",2020);
         this.instructor.assignGrade("instructorA", "TestA", 2020, "",
                 "Mike", 97);
-        assertTrue(this.instructor.getGrade("TestA",2020,"",
-                "Mike") == null);
+        assertFalse("Homework name cannot be empty",
+                this.instructor.getGrade("TestA",2020,"",
+                "Mike") == 97);
     }
 
     //Student name cannot be empty
     @Test
     public void testMakeHomework9() {
+        this.admin.createClass("TestA", 2020, "InstructorA", 15);
+        this.instructor.addHomework("InstructorA", "TestA", 2020, "Math",
+                "project1");
+        this.student.registerForClass("","TestA",2020);
+        this.student.submitHomework("","Math","MathAnswer","TestA",2020);
         this.instructor.assignGrade("instructorA", "TestA", 2020, "Math",
                 "", 97);
-        assertTrue(this.instructor.getGrade("TestA",2020,"Math",
-                "") == null);
+        assertFalse("Student name cannot be empty",
+                this.instructor.getGrade("TestA",2020,"Math",
+                "") == 97);
     }
 
     //Class is not assigned to the professor when assigning grade
@@ -138,12 +163,13 @@ public class TestInstructor {
         this.admin.createClass("TestA", 2020, "InstructorB", 15);
         this.instructor.addHomework("InstructorA", "TestA", 2020, "Math",
                 "project1");
+        this.student.registerForClass("Mike","TestA",2020);
         this.student.submitHomework("Mike","Math","MathAnswer","TestA",2020);
         this.instructor.assignGrade("InstructorA", "TestA", 2020, "Math",
                 "Mike", 100);
         assertFalse("Class is not assigned to the professor when adding homework.",
                 (this.instructor.homeworkExists("TestA",2020,"Math")) &&
-                        (this.admin.getClassInstructor("TestA",2020) == "InstructorA") &&
+                        (this.admin.getClassInstructor("TestA",2020).equals("InstructorA")) &&
                         (this.student.hasSubmitted("Mike","Math","TestA",2020) &&
                                 (this.instructor.getGrade("TestA",2020,"Math","Mike") != null)));
     }
@@ -154,12 +180,13 @@ public class TestInstructor {
         this.admin.createClass("TestA", 2020, "InstructorA", 15);
         this.instructor.addHomework("InstructorA", "TestA", 2020, "Art",
                 "project1");
+        this.student.registerForClass("Mike","TestA",2020);
         this.student.submitHomework("Mike","Math","MathAnswer","TestA",2020);
         this.instructor.assignGrade("InstructorA", "TestA", 2020, "Math",
                 "Mike", 100);
         assertFalse("Homework is not assigned when assigning grade",
                 (this.instructor.homeworkExists("TestA",2020,"Math")) &&
-                        (this.admin.getClassInstructor("TestA",2020) == "InstructorA") &&
+                        (this.admin.getClassInstructor("TestA",2020).equals("InstructorA")) &&
                         (this.student.hasSubmitted("Mike","Math","TestA",2020) &&
                                 (this.instructor.getGrade("TestA",2020,"Math","Mike") != null)));
     }
@@ -170,12 +197,13 @@ public class TestInstructor {
         this.admin.createClass("TestA", 2020, "InstructorA", 15);
         this.instructor.addHomework("InstructorA", "TestA", 2020, "Math",
                 "project1");
+        this.student.registerForClass("Mike","TestA",2020);
         this.student.submitHomework("Mike","Art","ArtAnswer","TestA",2020);
         this.instructor.assignGrade("InstructorA", "TestA", 2020, "Math",
                 "Mike", 100);
         assertFalse("Student does not submit homework when assigning grade",
                 (this.instructor.homeworkExists("TestA",2020,"Math")) &&
-                        (this.admin.getClassInstructor("TestA",2020) == "InstructorA") &&
+                        (this.admin.getClassInstructor("TestA",2020).equals("InstructorA")) &&
                         (this.student.hasSubmitted("Mike","Math","TestA",2020) &&
                                 (this.instructor.getGrade("TestA",2020,"Math","Mike") != null)));
     }
